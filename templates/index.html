@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dual-Panel Activity & Protocol Visualizer | Computer Networks</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Top Navigation Header -->
+  <header class="app-header">
+    <div class="header-brand">
+      <div class="brand-icon">⚡</div>
+      <div>
+        <h1 class="brand-title">Dual-Panel Activity & Protocol Visualizer</h1>
+        <p class="brand-subtitle">Computer Networks – Application Layer &bull; DNS &bull; HTTP &bull; SMTP &bull; HLS Streaming</p>
+      </div>
+    </div>
+    <div class="header-badges">
+      <div class="sync-badge pulse">
+        <span class="dot"></span>
+        <span class="sync-text">PANELS SYNCHRONIZED</span>
+      </div>
+      <div class="ai-badge">
+        <span class="ai-icon">🤖</span>
+        <span>Google Antigravity &bull; Gemini 3.8 Flash</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Dual-Panel Container -->
+  <main class="dashboard-grid">
+    
+    <!-- ======================================================== -->
+    <!-- LEFT PANEL: ACTIVITY PANEL                               -->
+    <!-- ======================================================== -->
+    <section class="panel activity-panel">
+      <div class="panel-header">
+        <div class="panel-tag">PANEL 1</div>
+        <h2 class="panel-title">Activity Panel</h2>
+        <span class="panel-desc">Select an application and trigger network actions</span>
+      </div>
+
+      <!-- Activity Selector Tabs -->
+      <div class="activity-tabs" role="tablist">
+        <button class="tab-btn active" data-tab="browsing" id="tab-browsing">
+          <span class="tab-icon">🌐</span>
+          <span class="tab-label">1. Web Browsing</span>
+          <span class="proto-tag tag-http">DNS &rarr; HTTP</span>
+        </button>
+        <button class="tab-btn" data-tab="mail" id="tab-mail">
+          <span class="tab-icon">✉️</span>
+          <span class="tab-label">2. Mail Client</span>
+          <span class="proto-tag tag-smtp">DNS &rarr; SMTP</span>
+        </button>
+        <button class="tab-btn" data-tab="streaming" id="tab-streaming">
+          <span class="tab-icon">🎬</span>
+          <span class="tab-label">3. Video Stream</span>
+          <span class="proto-tag tag-hls">DNS &rarr; HLS</span>
+        </button>
+      </div>
+
+      <!-- Activity Tab Content -->
+      <div class="activity-body">
+        
+        <!-- ---------------- BROWSING VIEW ---------------- -->
+        <div class="activity-view active" id="view-browsing">
+          <div class="control-box">
+            <label class="control-label" for="browser-url-input">Target Web URL:</label>
+            <div class="input-with-button">
+              <div class="url-input-wrapper">
+                <span class="url-prefix">https://</span>
+                <input type="text" id="browser-url-input" value="wikipedia.org/wiki/Computer_network" placeholder="domain.com/path">
+              </div>
+              <button class="btn btn-primary" id="btn-visit-url">
+                <span>Visit Page</span>
+                <span class="btn-arrow">&rarr;</span>
+              </button>
+            </div>
+            <div class="quick-presets">
+              <span class="presets-label">Presets:</span>
+              <button class="chip" data-url="ietf.org/standards/rfcs">ietf.org</button>
+              <button class="chip" data-url="github.com/torvalds/linux">github.com</button>
+              <button class="chip" data-url="antigravity.google.com/gemini">antigravity.google</button>
+            </div>
+          </div>
+
+          <!-- Browser Chrome Simulator -->
+          <div class="browser-mockup">
+            <div class="browser-toolbar">
+              <div class="browser-window-dots">
+                <span class="w-dot dot-red"></span>
+                <span class="w-dot dot-yellow"></span>
+                <span class="w-dot dot-green"></span>
+              </div>
+              <div class="browser-address-display" id="browser-display-url">
+                <span class="ssl-lock">🔒</span>
+                <span class="display-url-text" id="txt-active-url">https://wikipedia.org/wiki/Computer_network</span>
+              </div>
+              <div class="browser-status-chip" id="browser-status-badge">Ready</div>
+            </div>
+            <div class="browser-viewport" id="browser-viewport-content">
+              <div class="empty-state">
+                <div class="empty-icon">🌐</div>
+                <h3>Simulated Browser Viewport</h3>
+                <p>Click <b>Visit Page</b> to initiate DNS resolution, TCP handshake, and HTTP content retrieval.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Activity Log -->
+          <div class="activity-log-card">
+            <div class="card-mini-header">
+              <span>Client Activity Log</span>
+              <button class="btn-text-action" id="clear-browse-log">Clear</button>
+            </div>
+            <div class="log-stream" id="browse-log-stream">
+              <div class="log-entry">Initialized browser networking stack. Socket ready.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ---------------- MAIL VIEW ---------------- -->
+        <div class="activity-view" id="view-mail">
+          <div class="mail-form-card">
+            <div class="form-row">
+              <label for="mail-from">From:</label>
+              <input type="text" id="mail-from" value="alice@client-network.edu" readonly class="readonly-input">
+            </div>
+            <div class="form-row">
+              <label for="mail-to">To (Recipient):</label>
+              <input type="email" id="mail-to" value="bob@stanford.edu" placeholder="user@domain.com">
+            </div>
+            <div class="quick-presets">
+              <span class="presets-label">Domain Presets:</span>
+              <button class="chip mail-chip" data-to="professor@mit.edu">@mit.edu</button>
+              <button class="chip mail-chip" data-to="admin@ietf.org">@ietf.org</button>
+              <button class="chip mail-chip" data-to="review@antigravity.dev">@antigravity.dev</button>
+            </div>
+            <div class="form-row">
+              <label for="mail-subject">Subject:</label>
+              <input type="text" id="mail-subject" value="Computer Networks - Application Layer Demo">
+            </div>
+            <div class="form-row">
+              <label for="mail-body">Message Body:</label>
+              <textarea id="mail-body" rows="4">Hello Professor,
+
+This email transmission demonstrates the stateful SMTP protocol exchange (RFC 5321) including EHLO, MAIL FROM, RCPT TO, DATA, and QUIT.
+
+Best regards,
+Student</textarea>
+            </div>
+            <div class="form-actions">
+              <button class="btn btn-primary" id="btn-send-mail">
+                <span>Send Email (SMTP)</span>
+                <span class="btn-arrow">&rarr;</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Mail Sent Status Receipt -->
+          <div class="receipt-card" id="mail-receipt-card" style="display: none;">
+            <div class="receipt-header">
+              <span class="check-icon">✓</span>
+              <span>Message Spooled & Dispatched</span>
+            </div>
+            <div class="receipt-grid">
+              <div><b>Relay Host:</b> <span id="rcpt-mx-host">-</span></div>
+              <div><b>Queue ID:</b> <code id="rcpt-queue-id">-</code></div>
+              <div><b>Transfer Status:</b> <span class="badge-success">250 2.0.0 Ok</span></div>
+              <div><b>Session:</b> <span class="badge-neutral">Closed via QUIT</span></div>
+            </div>
+          </div>
+
+          <!-- Activity Log -->
+          <div class="activity-log-card">
+            <div class="card-mini-header">
+              <span>Mail User Agent (MUA) Log</span>
+              <button class="btn-text-action" id="clear-mail-log">Clear</button>
+            </div>
+            <div class="log-stream" id="mail-log-stream">
+              <div class="log-entry">Mail Client ready. SMTP client listener initialized.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ---------------- STREAMING VIEW ---------------- -->
+        <div class="activity-view" id="view-streaming">
+          <div class="player-wrapper">
+            <!-- Simulated Video Screen -->
+            <div class="video-screen">
+              <canvas id="video-canvas" width="480" height="240"></canvas>
+              <div class="video-overlay-info" id="video-overlay">
+                <span class="badge-live">● HLS SIMULATION</span>
+                <span class="res-tag" id="txt-overlay-res">720p HD</span>
+              </div>
+              <div class="buffering-spinner" id="buffering-spinner" style="display: none;">
+                <div class="spinner"></div>
+                <span>Fetching segment chunk...</span>
+              </div>
+            </div>
+
+            <!-- Player Controls Toolbar -->
+            <div class="player-controls">
+              <div class="player-buttons">
+                <button class="btn btn-control" id="btn-stream-play">
+                  <span id="play-icon">▶ Play</span>
+                </button>
+                <button class="btn btn-control" id="btn-stream-pause">
+                  <span>⏸ Pause</span>
+                </button>
+              </div>
+
+              <!-- Quality Selector -->
+              <div class="quality-selector-box">
+                <label for="stream-quality">Quality / Bitrate:</label>
+                <select id="stream-quality" class="styled-select">
+                  <option value="1080p">1080p (5.2 Mbps · 60fps)</option>
+                  <option value="720p" selected>720p (2.8 Mbps · 30fps)</option>
+                  <option value="480p">480p (1.2 Mbps · 30fps)</option>
+                  <option value="360p">360p (0.6 Mbps · 30fps)</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Buffer Gauge & Telemetry -->
+            <div class="buffer-telemetry">
+              <div class="telemetry-labels">
+                <span>Buffer Health: <b id="txt-buffer-time">0.0s</b> / 16.0s</span>
+                <span>Bitrate: <b id="txt-bitrate">2,800 kbps</b></span>
+              </div>
+              <div class="progress-track">
+                <div class="buffer-bar" id="stream-buffer-bar" style="width: 0%;"></div>
+                <div class="playhead-bar" id="stream-playhead" style="width: 0%;"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Activity Log -->
+          <div class="activity-log-card">
+            <div class="card-mini-header">
+              <span>HLS Player Telemetry Log</span>
+              <button class="btn-text-action" id="clear-stream-log">Clear</button>
+            </div>
+            <div class="log-stream" id="stream-log-stream">
+              <div class="log-entry">HLS Player Engine idle. Ready to fetch master playlist.</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- RIGHT PANEL: PROTOCOL VISUALIZATION PANEL                 -->
+    <!-- ======================================================== -->
+    <section class="panel visualizer-panel">
+      <div class="panel-header visualizer-header">
+        <div>
+          <div class="panel-tag tag-viz">PANEL 2</div>
+          <h2 class="panel-title">Protocol Visualization Panel</h2>
+          <span class="panel-desc">Real-time sequential trace of messages exchanged across application protocols</span>
+        </div>
+
+        <!-- Playback Control Toolbar -->
+        <div class="playback-toolbar">
+          <div class="control-group">
+            <button class="btn-icon" id="btn-step-replay" title="Replay Trace">↺</button>
+            <button class="btn-icon" id="btn-step-prev" title="Previous Step">◀</button>
+            <button class="btn-icon btn-highlight" id="btn-toggle-play" title="Play/Pause Auto-Advance">▶ Auto</button>
+            <button class="btn-icon" id="btn-step-next" title="Next Step">▶</button>
+          </div>
+          <div class="speed-control">
+            <label for="playback-speed">Speed:</label>
+            <select id="playback-speed" class="styled-select-mini">
+              <option value="2000">0.5x</option>
+              <option value="1000" selected>1.0x</option>
+              <option value="500">2.0x</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Protocol Status Bar -->
+      <div class="viz-status-bar">
+        <div class="status-left">
+          <span class="status-label">Active Flow:</span>
+          <span class="active-flow-badge" id="lbl-active-flow">Browsing (DNS + HTTP)</span>
+        </div>
+        <div class="status-right">
+          <span class="step-counter" id="lbl-step-counter">Step 0 / 0</span>
+          <!-- View switcher -->
+          <div class="view-switch-btns">
+            <button class="btn-switch active" id="btn-view-ladder" title="Ladder Sequence Diagram">Ladder Diagram</button>
+            <button class="btn-switch" id="btn-view-cards" title="Chronological Message Cards">Message Feed</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Visualizer Canvas / Sequence Diagram Section -->
+      <div class="viz-viewport">
+        <!-- Sequence Ladder View -->
+        <div class="ladder-diagram-wrapper" id="view-ladder-container">
+          <div class="ladder-nodes">
+            <div class="node-column" id="node-client">
+              <div class="node-box">
+                <span class="node-icon">💻</span>
+                <span class="node-name">Client Host</span>
+                <span class="node-ip">192.168.1.105</span>
+              </div>
+              <div class="lifeline"></div>
+            </div>
+            <div class="node-column" id="node-dns">
+              <div class="node-box node-box-dns">
+                <span class="node-icon">🔍</span>
+                <span class="node-name">DNS Resolver</span>
+                <span class="node-ip">8.8.8.8:53</span>
+              </div>
+              <div class="lifeline"></div>
+            </div>
+            <div class="node-column" id="node-server">
+              <div class="node-box node-box-server">
+                <span class="node-icon">🌐</span>
+                <span class="node-name" id="lbl-server-node-name">Web Server</span>
+                <span class="node-ip" id="lbl-server-node-ip">Remote Server</span>
+              </div>
+              <div class="lifeline"></div>
+            </div>
+          </div>
+          <!-- Dynamic Message Arrows Container -->
+          <div class="ladder-messages" id="ladder-messages-list"></div>
+        </div>
+
+        <!-- Chronological Cards View -->
+        <div class="cards-list-wrapper" id="view-cards-container" style="display: none;">
+          <div class="cards-stream" id="cards-stream-list"></div>
+        </div>
+      </div>
+
+      <!-- ======================================================== -->
+      <!-- DEEP PACKET & PROTOCOL INSPECTOR                         -->
+      <!-- ======================================================== -->
+      <div class="packet-inspector">
+        <div class="inspector-header">
+          <div class="inspector-title">
+            <span class="inspector-icon">🔬</span>
+            <span id="inspector-step-title">Select a message step to inspect raw packet fields</span>
+          </div>
+          <div class="inspector-tabs">
+            <button class="ins-tab active" data-ins="wire">Raw Wire Format</button>
+            <button class="ins-tab" data-ins="fields">Decoded Fields</button>
+            <button class="ins-tab" data-ins="rfc">RFC Protocol Analysis</button>
+          </div>
+        </div>
+
+        <div class="inspector-content">
+          <!-- Raw Wire Format Tab -->
+          <div class="ins-pane active" id="pane-wire">
+            <pre class="code-box" id="txt-raw-wire">No message selected. Click any step above to inspect the wire format bytes, CRLF boundaries, and header fields.</pre>
+          </div>
+
+          <!-- Decoded Fields Tab -->
+          <div class="ins-pane" id="pane-fields">
+            <div class="fields-table-wrapper">
+              <table class="fields-table">
+                <thead>
+                  <tr>
+                    <th>Field / Header</th>
+                    <th>Value / Flag</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody id="tbl-fields-body">
+                  <tr><td colspan="3" class="text-muted">No step selected</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- RFC Analysis Tab -->
+          <div class="ins-pane" id="pane-rfc">
+            <div class="rfc-summary-box" id="box-rfc-summary">
+              <h4>Application Layer Standard Specifications</h4>
+              <p>The Application layer operates at Layer 7 of the OSI Model and Layer 5/4 of the TCP/IP stack. It encompasses protocols that interact directly with user processes:</p>
+              <ul>
+                <li><b>DNS (RFC 1035):</b> Resolves human-readable domain names into IP addresses via recursive or iterative UDP queries on port 53.</li>
+                <li><b>HTTP (RFC 7230/7231):</b> Stateless, client-server request-response protocol running over TCP (port 80/443). Uses methods like GET and POST with status codes (200 OK, 404 Not Found).</li>
+                <li><b>SMTP (RFC 5321):</b> Stateful, push-based mail transfer protocol running over TCP port 25/587. Employs a structured command-response lockstep dialog.</li>
+                <li><b>HLS (RFC 8216):</b> HTTP Live Streaming breaks continuous media streams into downloadable indexed chunks (.ts segments), enabling adaptive bitrate adaptation over standard HTTP caches.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
