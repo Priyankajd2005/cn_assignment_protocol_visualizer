@@ -959,3 +959,141 @@ class ProtocolEngine:
             "total_time_ms": elapsed,
             "steps": [s.to_dict() for s in steps]
         }
+
+    @staticmethod
+    def simulate_transport(scenario: str = "handshake", src_port: int = 54122, dst_port: int = 443) -> dict:
+        steps = []
+        client_ip = "192.168.1.105"
+        server_ip = "142.250.190.46"
+        elapsed = 0
+
+        # Step 1: SYN
+        steps.append(ProtocolStep(
+            step_id=1, protocol="TCP", title=f"TCP 3-Way Handshake [SYN] Client -> Port {dst_port}",
+            direction="client_to_server", sender=f"Client ({client_ip}:{src_port})", receiver=f"Server ({server_ip}:{dst_port})",
+            time_offset_ms=elapsed, summary="Client initiates reliable transport channel by sending SYN segment with Initial Sequence Number (ISN=1000).",
+            raw_wire=f"TCP Header:\nSource Port: {src_port}, Dest Port: {dst_port}\nSequence Number: 1000, Acknowledgment: 0\nHeader Length: 32 bytes, Flags: [SYN]\nWindow Size: 65535, Checksum: 0x4a12\nOptions: MSS 1460, SACK Permitted, Window Scale 7",
+            key_fields={"Flags": "[SYN]", "Sequence Number": 1000, "Ack Number": 0, "Window Size": 65535, "MSS": 1460, "TCP State": "SYN-SENT"},
+            category="handshake"
+        ))
+        elapsed += 28
+
+        # Step 2: SYN, ACK
+        steps.append(ProtocolStep(
+            step_id=2, protocol="TCP", title=f"TCP 3-Way Handshake [SYN, ACK] Server -> Client",
+            direction="server_to_client", sender=f"Server ({server_ip}:{dst_port})", receiver=f"Client ({client_ip}:{src_port})",
+            time_offset_ms=elapsed, summary="Server acknowledges client's ISN (Ack=1001) and synchronizes its own sequence (Seq=5000).",
+            raw_wire=f"TCP Header:\nSource Port: {dst_port}, Dest Port: {src_port}\nSequence Number: 5000, Acknowledgment: 1001 (ISN+1)\nFlags: [SYN, ACK], Window Size: 65535\nOptions: MSS 1460, SACK Permitted",
+            key_fields={"Flags": "[SYN, ACK]", "Sequence Number": 5000, "Ack Number": 1001, "Window Size": 65535, "TCP State": "SYN-RECEIVED"},
+            category="handshake"
+        ))
+        elapsed += 25
+
+        # Step 3: ACK
+        steps.append(ProtocolStep(
+            step_id=3, protocol="TCP", title="TCP 3-Way Handshake [ACK] (Connection Established)",
+            direction="client_to_server", sender=f"Client ({client_ip}:{src_port})", receiver=f"Server ({server_ip}:{dst_port})",
+            time_offset_ms=elapsed, summary="Client acknowledges server's SYN (Ack=5001). Full-duplex connection is now ESTABLISHED.",
+            raw_wire=f"TCP Header:\nSource Port: {src_port}, Dest Port: {dst_port}\nSequence Number: 1001, Acknowledgment: 5001 (Seq+1)\nFlags: [ACK], Window Size: 65535\nConnection State: ESTABLISHED",
+            key_fields={"Flags": "[ACK]", "Sequence Number": 1001, "Ack Number": 5001, "TCP State": "ESTABLISHED"},
+            category="handshake"
+        ))
+        elapsed += 20
+
+        # Step 4: Data Push PSH, ACK
+        steps.append(ProtocolStep(
+            step_id=4, protocol="TCP", title="TCP Segment [PSH, ACK] Data Transfer (Client -> Server)",
+            direction="client_to_server", sender=f"Client ({client_ip}:{src_port})", receiver=f"Server ({server_ip}:{dst_port})",
+            time_offset_ms=elapsed, summary="Client pushes 350-byte application layer request segment with PSH flag set for immediate delivery.",
+            raw_wire=f"TCP Segment:\nSource Port: {src_port}, Dest Port: {dst_port}\nSeq: 1001, Ack: 5001, Flags: [PSH, ACK]\nPayload Length: 350 bytes\nData: [Application Layer Request Payload]",
+            key_fields={"Flags": "[PSH, ACK]", "Payload Length": "350 bytes", "Next Expected Seq": 1351, "TCP State": "ESTABLISHED"},
+            category="handshake"
+        ))
+        elapsed += 30
+
+        # Step 5: Server ACK
+        steps.append(ProtocolStep(
+            step_id=5, protocol="TCP", title="TCP Segment [ACK] Server Confirms Data",
+            direction="server_to_client", sender=f"Server ({server_ip}:{dst_port})", receiver=f"Client ({client_ip}:{src_port})",
+            time_offset_ms=elapsed, summary="Server acknowledges receipt of 350 bytes (Ack=1351 cumulative).",
+            raw_wire=f"TCP Header:\nSource Port: {dst_port}, Dest Port: {src_port}\nSeq: 5001, Ack: 1351 (1001+350)\nFlags: [ACK], Window: 65185",
+            key_fields={"Flags": "[ACK]", "Ack Number": 1351, "Window Size": 65185, "TCP State": "ESTABLISHED"},
+            category="handshake"
+        ))
+        elapsed += 25
+
+        # Step 6: Server Response PSH, ACK
+        steps.append(ProtocolStep(
+            step_id=6, protocol="TCP", title="TCP Segment [PSH, ACK] Server Transmits Response",
+            direction="server_to_client", sender=f"Server ({server_ip}:{dst_port})", receiver=f"Client ({client_ip}:{src_port})",
+            time_offset_ms=elapsed, summary="Server transmits 1256 bytes of application layer response data.",
+            raw_wire=f"TCP Segment:\nSource Port: {dst_port}, Dest Port: {src_port}\nSeq: 5001, Ack: 1351, Flags: [PSH, ACK]\nPayload Length: 1256 bytes",
+            key_fields={"Flags": "[PSH, ACK]", "Payload Length": "1256 bytes", "Next Expected Seq": 6257, "TCP State": "ESTABLISHED"},
+            category="handshake"
+        ))
+        elapsed += 35
+
+        # Step 7: Client ACK
+        steps.append(ProtocolStep(
+            step_id=7, protocol="TCP", title="TCP Segment [ACK] Client Confirms Response",
+            direction="client_to_server", sender=f"Client ({client_ip}:{src_port})", receiver=f"Server ({server_ip}:{dst_port})",
+            time_offset_ms=elapsed, summary="Client acknowledges server response payload (Ack=6257).",
+            raw_wire=f"TCP Header:\nSource Port: {src_port}, Dest Port: {dst_port}\nSeq: 1351, Ack: 6257 (5001+1256), Flags: [ACK]",
+            key_fields={"Flags": "[ACK]", "Ack Number": 6257, "TCP State": "ESTABLISHED"},
+            category="handshake"
+        ))
+        elapsed += 22
+
+        # Step 8: Teardown FIN, ACK
+        steps.append(ProtocolStep(
+            step_id=8, protocol="TCP", title="TCP 4-Way Teardown [FIN, ACK] Client Initiates Close",
+            direction="client_to_server", sender=f"Client ({client_ip}:{src_port})", receiver=f"Server ({server_ip}:{dst_port})",
+            time_offset_ms=elapsed, summary="Client signals end of transmission with FIN flag. Client enters FIN-WAIT-1 state.",
+            raw_wire=f"TCP Header:\nSource Port: {src_port}, Dest Port: {dst_port}\nSeq: 1351, Ack: 6257, Flags: [FIN, ACK]\nState: FIN-WAIT-1",
+            key_fields={"Flags": "[FIN, ACK]", "TCP State": "FIN-WAIT-1", "Action": "Close Connection"},
+            category="handshake"
+        ))
+        elapsed += 20
+
+        # Step 9: Teardown ACK
+        steps.append(ProtocolStep(
+            step_id=9, protocol="TCP", title="TCP 4-Way Teardown [ACK] Server Confirms FIN",
+            direction="server_to_client", sender=f"Server ({server_ip}:{dst_port})", receiver=f"Client ({client_ip}:{src_port})",
+            time_offset_ms=elapsed, summary="Server acknowledges client's FIN (Ack=1352). Server enters CLOSE-WAIT, client enters FIN-WAIT-2.",
+            raw_wire=f"TCP Header:\nSource Port: {dst_port}, Dest Port: {src_port}\nSeq: 6257, Ack: 1352, Flags: [ACK]\nServer State: CLOSE-WAIT | Client State: FIN-WAIT-2",
+            key_fields={"Flags": "[ACK]", "Ack Number": 1352, "Server State": "CLOSE-WAIT", "Client State": "FIN-WAIT-2"},
+            category="handshake"
+        ))
+        elapsed += 25
+
+        # Step 10: Server FIN, ACK
+        steps.append(ProtocolStep(
+            step_id=10, protocol="TCP", title="TCP 4-Way Teardown [FIN, ACK] Server Closes Channel",
+            direction="server_to_client", sender=f"Server ({server_ip}:{dst_port})", receiver=f"Client ({client_ip}:{src_port})",
+            time_offset_ms=elapsed, summary="Server completes pending tasks and sends its own FIN segment. Server enters LAST-ACK state.",
+            raw_wire=f"TCP Header:\nSource Port: {dst_port}, Dest Port: {src_port}\nSeq: 6257, Ack: 1352, Flags: [FIN, ACK]\nState: LAST-ACK",
+            key_fields={"Flags": "[FIN, ACK]", "TCP State": "LAST-ACK", "Action": "Server Channel Closed"},
+            category="handshake"
+        ))
+        elapsed += 20
+
+        # Step 11: Final ACK
+        steps.append(ProtocolStep(
+            step_id=11, protocol="TCP", title="TCP 4-Way Teardown [ACK] Final Close (TIME-WAIT -> CLOSED)",
+            direction="client_to_server", sender=f"Client ({client_ip}:{src_port})", receiver=f"Server ({server_ip}:{dst_port})",
+            time_offset_ms=elapsed, summary="Client sends final ACK (Ack=6258). Client enters TIME-WAIT (2*MSL) and server socket transitions to CLOSED.",
+            raw_wire=f"TCP Header:\nSource Port: {src_port}, Dest Port: {dst_port}\nSeq: 1352, Ack: 6258, Flags: [ACK]\nClient State: TIME-WAIT -> CLOSED | Server State: CLOSED",
+            key_fields={"Flags": "[ACK]", "Ack Number": 6258, "Final State": "CLOSED"},
+            category="handshake"
+        ))
+
+        return {
+            "activity": "transport",
+            "scenario": scenario,
+            "src_port": src_port,
+            "dst_port": dst_port,
+            "server_ip": server_ip,
+            "total_time_ms": elapsed,
+            "steps": [s.to_dict() for s in steps]
+        }
+

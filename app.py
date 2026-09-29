@@ -47,6 +47,16 @@ def health():
         "protocols": ["DNS", "HTTP", "SMTP", "HLS"]
     })
 
+
+@app.route("/api/protocols/transport", methods=["GET", "POST"])
+def transport_protocol():
+    data = request.get_json(silent=True) or request.args
+    scenario = data.get("scenario", "handshake")
+    src = int(data.get("src_port", 54122))
+    dst = int(data.get("dst_port", 443))
+    result = ProtocolEngine.simulate_transport(scenario=scenario, src_port=src, dst_port=dst)
+    return jsonify(result)
+
 if __name__ == "__main__":
     print("==================================================================")
     print(" Dual-Panel Activity & Protocol Visualizer is starting...")
