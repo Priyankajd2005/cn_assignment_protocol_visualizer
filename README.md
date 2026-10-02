@@ -1,6 +1,6 @@
- Application + Transport Layer Visualizer (Assignment 2)
+ # Application + Transport Layer Visualizer (Assignment 2)
 
- Application + Transport Layer Visualization
+# Application + Transport Layer Visualization 
 
 The **Application + Transport Layer Visualizer** is an educational Computer Networks project that demonstrates how Application Layer activities interact with Transport Layer communication.
 
