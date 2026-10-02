@@ -278,7 +278,7 @@ It is designed as an educational simulation and does not replace real packet-cap
 
 ---
 
-👥 Contributors
+ Contributors
 
 This project was developed as part of the Computer Networks Assignment 2.
 
