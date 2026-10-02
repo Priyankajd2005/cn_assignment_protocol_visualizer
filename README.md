@@ -4,7 +4,7 @@
 
 The **Application + Transport Layer Visualizer** is an educational Computer Networks project that demonstrates how Application Layer activities interact with Transport Layer communication.
 
-The project provides an interactive dashboard where users can visualize:
+The project provides an interactive dashboard where users can visualize:  
 
 - Browsing
 - Mail
