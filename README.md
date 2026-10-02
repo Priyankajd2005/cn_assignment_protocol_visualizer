@@ -23,7 +23,7 @@ The interface provides step-by-step protocol visualization with playback control
 
 ---
 
- What's New in Assignment 2
+ # What's New in Assignment 2
 
 Assignment 2 extends the original Application Layer visualizer by adding Transport Layer functionality.
 
@@ -50,7 +50,7 @@ The main Transport Layer endpoint is:
 
 ---
 
- How Seq/Ack Tracking Works
+# How Seq/Ack Tracking Works
 
 The Transport Layer simulation represents TCP sequence and acknowledgement information for each communication step.
 
@@ -67,7 +67,7 @@ The generated values are passed from the Flask backend to the frontend as struct
 
 The frontend then displays these values in the **Transport Layer packet inspector**, allowing the user to observe how TCP communication changes from connection establishment to data transfer and connection termination.
 
- Setup & Run
+  # Setup & Run
 
  1. Clone the repository
 
@@ -97,7 +97,7 @@ Open the URL in your browser to use the Application + Transport Layer Visualizer
 
 ---
 
- How the Two Views Stay Synchronized
+# How the Two Views Stay Synchronized
 
 The project uses a common simulation-step structure between the activity and protocol visualization panels.
 
@@ -115,7 +115,7 @@ The synchronization flow is:
         ↓
     Right-Side Protocol Visualization
 
-When the user starts an activity:
+ # When the user starts an activity:
 
 1. The frontend sends a request to the Flask backend.
 2. The backend runs the corresponding protocol simulation.
@@ -135,7 +135,7 @@ This keeps the protocol information and visual playback synchronized with the se
 
 ---
 
- 📁 Project Structure
+# 📁 Project Structure
 
     CN_Protocol_Visualizer/
     │
@@ -152,14 +152,14 @@ This keeps the protocol information and visual playback synchronized with the se
         ├── app.js
         └── style.css
 
- Backend
+# Backend
 
 - `app.py` — Flask application and REST API routes
 - `protocol_engine.py` — Application and Transport Layer simulation logic
 - `test_engine.py` — Automated tests
 - `requirements.txt` — Project dependencies
 
- Frontend
+# Frontend
 
 - `templates/index.html` — Main dashboard structure
 - `static/app.js` — Simulation state, API communication, playback and visualization logic
@@ -171,7 +171,7 @@ This keeps the protocol information and visual playback synchronized with the se
 
 This project is an **educational protocol visualizer**. The network communication shown in the dashboard is simulated rather than generated through real network connections.
 
-Simulated
+# Simulated
 
 - DNS resolution
 - HTTP request/response
@@ -185,7 +185,7 @@ Simulated
 - Protocol timing
 - Packet/wire representation
 
- Real
+# Real
 
 The following parts are real software components:
 
@@ -202,7 +202,7 @@ The project does not open real TCP connections to external servers for the proto
 
 ---
 
- Assignment 2 Learning Objectives
+ # Assignment 2 Learning Objectives
 
 The project demonstrates how Application Layer activities interact with Transport Layer communication.
 
@@ -224,7 +224,7 @@ This makes it easier to connect theoretical Computer Networks concepts with an i
 
 ---
 
- Extra Credit Ideas
+# Extra Credit Ideas
 
 The current project uses simulated network traffic. Possible future extensions include:
 
@@ -268,7 +268,7 @@ A future version could visualize QUIC and HTTP/3 communication and compare it wi
 
 ---
 
- Project Summary
+# Project Summary
 
 The **Application + Transport Layer Visualizer** combines Application Layer protocol simulations with Transport Layer TCP visualization in a single interactive dashboard.
 
@@ -278,7 +278,7 @@ It is designed as an educational simulation and does not replace real packet-cap
 
 ---
 
- Contributors
+# Contributors
 
 This project was developed as part of the Computer Networks Assignment 2.
 
@@ -298,17 +298,14 @@ Application Layer and Transport Layer visualization development.
 
 [View All Contributors](https://github.com/Priyankajd2005/cn_assignment_protocol_visualizer/graphs/contributors)
 
-
-  Languages & Technologies
-
- Languages
+# Languages
 
 - Python
 - JavaScript
 - HTML
 - CSS
 
-Technologies & Frameworks
+ # Technologies & Frameworks
 
 - Flask
 - REST API
