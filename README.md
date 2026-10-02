@@ -1,44 +1,56 @@
-# Application + Transport Layer Visualizer (Assignment 2)
+ Application + Transport Layer Visualizer (Assignment 2)
 
-Extends the Assignment 1 dashboard so the right panel supports **two synchronized views** of the same exchange: an Application-layer view (DNS/HTTP/SMTP/HLS) and a Transport-layer view focused on TCP communication, including connection establishment, data transfer, and connection termination. Both views are driven by the same underlying step timeline so the protocol information and playback remain synchronized.
+ Application + Transport Layer Visualization
 
-## Application + Transport Layer Visualization
+The **Application + Transport Layer Visualizer** is an educational Computer Networks project that demonstrates how Application Layer activities interact with Transport Layer communication.
 
-The Application + Transport Layer Visualizer is an educational Computer Networks project that demonstrates how Application Layer protocols and Transport Layer communication work together.
+The project provides an interactive dashboard where users can visualize:
 
-The project provides interactive visualization of protocols such as DNS, HTTP, SMTP, and HLS at the Application Layer.
+- Browsing
+- Mail
+- Streaming
+- DNS
+- HTTP
+- SMTP
+- HLS
+- TCP communication
+- TCP handshake
+- TCP connection termination
+- TCP packet fields
+- Sequence and acknowledgement information
 
-The Transport Layer visualization demonstrates TCP communication through connection establishment, data communication, and connection termination.
+The interface provides step-by-step protocol visualization with playback controls, packet information, raw wire representation, decoded fields and TCP state information.
 
-Users can inspect important TCP information such as **Sequence Number, Acknowledgement Number, TCP Flags, Window Size, MSS, and TCP State**.
+---
 
-The project provides step-by-step protocol visualization, structured packet information, and playback controls to help students understand how network communication takes place between a client and a server.
+ What's New in Assignment 2
 
-The application is built using a Flask backend and a JavaScript-based frontend, combining protocol simulation logic with an interactive Computer Networks dashboard.
+Assignment 2 extends the original Application Layer visualizer by adding Transport Layer functionality.
 
-## 🆕 What's New in Assignment 2
+ Major additions:
 
-- **Transport Layer View** — A dedicated Transport Layer visualization has been added to the existing Application Layer protocol visualizer.
+- Dedicated Transport Layer simulation
+- TCP handshake visualization
+- TCP connection termination visualization
+- Configurable source and destination ports
+- TCP sequence numbers
+- TCP acknowledgement numbers
+- TCP flags
+- TCP window information
+- MSS information
+- TCP state tracking
+- Transport Layer packet inspection
+- Transport-specific simulation API
+- Step-by-step TCP playback
+- Application + Transport Layer project integration
 
-- **TCP Handshake** — The project now visualizes TCP connection establishment using SYN, SYN-ACK, and ACK segments.
+The main Transport Layer endpoint is:
 
-- **TCP Data Communication** — TCP data-transfer steps are represented with important fields such as Sequence Number, Acknowledgement Number, TCP Flags, Window Size, and MSS.
+    POST /api/protocols/transport
 
-- **TCP Connection Termination** — The project visualizes TCP connection termination using FIN and ACK communication and shows the final TCP state.
+---
 
-- **TCP State Tracking** — TCP state information is displayed during the simulation to help users understand the lifecycle of a TCP connection.
-
-- **Configurable Ports** — Source and destination port numbers can be provided for Transport Layer simulations.
-
-- **Transport Packet Inspector** — Each Transport Layer step provides detailed information including direction, summary, timing, TCP flags, sequence number, acknowledgement number, window size, MSS, and TCP state.
-
-- **Step-by-Step Playback** — Users can explore the TCP communication sequence using playback controls such as previous, next, pause, replay, and speed controls.
-
-- **Dedicated Transport API** — A dedicated `/api/protocols/transport` endpoint has been added for generating Transport Layer simulation data.
-
-- **Application + Transport Integration** — Assignment 2 connects Application Layer protocol concepts with Transport Layer TCP communication in one interactive visualization.
-
-## 🔢 How Seq/Ack Tracking Works
+ How Seq/Ack Tracking Works
 
 The Transport Layer simulation represents TCP sequence and acknowledgement information for each communication step.
 
@@ -55,43 +67,53 @@ The generated values are passed from the Flask backend to the frontend as struct
 
 The frontend then displays these values in the **Transport Layer packet inspector**, allowing the user to observe how TCP communication changes from connection establishment to data transfer and connection termination.
 
-Example TCP flow:
+ Setup & Run
 
-Client                         Server
+ 1. Clone the repository
 
-SYN
-Seq = X
-        -------------------->
+    git clone https://github.com/Priyankajd2005/cn_assignment_protocol_visualizer.git
 
-                         SYN-ACK
-                         Seq = Y
-                         Ack = X + 1
-        <--------------------
+2. Open the project folder
 
-ACK
-Seq = X + 1
-Ack = Y + 1
-        -------------------->
+    cd CN_Protocol_Visualizer
 
-This provides a visual representation of the sequence and acknowledgement mechanism used by TCP.
+ 3. Install dependencies
 
-## 🔄 How the Two Views Stay Synchronized
+    pip install -r requirements.txt
+
+ 4. Run the Flask application
+
+    python app.py
+
+The application will start at:
+
+    http://127.0.0.1:5000
+
+Open the URL in your browser to use the Application + Transport Layer Visualizer.
+
+ Live Demo
+
+[Open Live Project](https://cn-assignment-protocol-visualizer-2.onrender.com)
+
+---
+
+ How the Two Views Stay Synchronized
 
 The project uses a common simulation-step structure between the activity and protocol visualization panels.
 
 The synchronization flow is:
 
-User Action
-    ↓
-Flask Backend
-    ↓
-Protocol Simulation Engine
-    ↓
-Protocol Steps
-    ↓
-JavaScript State Manager
-    ↓
-Right-Side Protocol Visualization
+    User Action
+        ↓
+    Flask Backend
+        ↓
+    Protocol Simulation Engine
+        ↓
+    Protocol Steps
+        ↓
+    JavaScript State Manager
+        ↓
+    Right-Side Protocol Visualization
 
 When the user starts an activity:
 
@@ -105,28 +127,30 @@ When the user starts an activity:
 
 For Transport Layer simulation, the frontend uses the dedicated:
 
-`/api/protocols/transport`
+    /api/protocols/transport
 
 endpoint.
 
 This keeps the protocol information and visual playback synchronized with the selected simulation.
 
-## 📁 Project Structure
+---
 
-CN_Protocol_Visualizer/
-│
-├── app.py
-├── protocol_engine.py
-├── test_engine.py
-├── requirements.txt
-├── README.md
-│
-├── templates/
-│   └── index.html
-│
-└── static/
-    ├── app.js
-    └── style.css
+ 📁 Project Structure
+
+    CN_Protocol_Visualizer/
+    │
+    ├── app.py
+    ├── protocol_engine.py
+    ├── test_engine.py
+    ├── requirements.txt
+    ├── README.md
+    │
+    ├── templates/
+    │   └── index.html
+    │
+    └── static/
+        ├── app.js
+        └── style.css
 
  Backend
 
@@ -141,11 +165,13 @@ CN_Protocol_Visualizer/
 - `static/app.js` — Simulation state, API communication, playback and visualization logic
 - `static/style.css` — Dashboard layout and styling
 
-What's Simulated vs. Real
+---
+
+ What's Simulated vs. Real
 
 This project is an **educational protocol visualizer**. The network communication shown in the dashboard is simulated rather than generated through real network connections.
 
- Simulated
+Simulated
 
 - DNS resolution
 - HTTP request/response
@@ -158,7 +184,6 @@ This project is an **educational protocol visualizer**. The network communicatio
 - Sequence and acknowledgement values
 - Protocol timing
 - Packet/wire representation
-- TCP state information
 
  Real
 
@@ -171,10 +196,11 @@ The following parts are real software components:
 - User input handling
 - Playback controls
 - JSON data exchange between frontend and backend
-- Python protocol simulation engine
 - Automated Python tests
 
-The project does not open real TCP connections to external servers for the protocol visualization. Instead, it generates structured protocol events for educational demonstration.
+The project does not open real TCP connections to external servers for the protocol visualization. Instead, it generates realistic protocol events for educational demonstration.
+
+---
 
  Assignment 2 Learning Objectives
 
@@ -182,42 +208,31 @@ The project demonstrates how Application Layer activities interact with Transpor
 
 Students can observe:
 
-Application Layer
-       ↓
-DNS / HTTP / SMTP / HLS
-       ↓
-Transport Layer
-       ↓
-TCP
-       ↓
-TCP Segments
-       ↓
-Client ↔ Server Communication
+    Application Layer
+           ↓
+    DNS / HTTP / SMTP / HLS
+           ↓
+    Transport Layer
+           ↓
+    TCP
+           ↓
+    TCP Segments
+           ↓
+    Client ↔ Server Communication
 
 This makes it easier to connect theoretical Computer Networks concepts with an interactive visual representation.
 
-Students can understand:
-
-- Application Layer protocols
-- Transport Layer responsibilities
-- TCP connection establishment
-- TCP data communication
-- TCP connection termination
-- Sequence and acknowledgement numbers
-- TCP flags
-- TCP states
-- Source and destination ports
-- Protocol communication flow
+---
 
  Extra Credit Ideas
 
 The current project uses simulated network traffic. Possible future extensions include:
 
- 1. Real TCP Communication
+1. Real TCP Communication
 
 Connect the visualizer to a real TCP client/server implementation instead of simulated TCP events.
 
-2. Congestion Window Visualization
+ 2. Congestion Window Visualization
 
 Add a graphical representation of TCP congestion control, including:
 
@@ -225,7 +240,6 @@ Add a graphical representation of TCP congestion control, including:
 - Congestion Avoidance
 - Congestion Window
 - Retransmission events
-
  3. Persistent vs Non-Persistent HTTP
 
 Add a comparison between:
@@ -233,7 +247,7 @@ Add a comparison between:
 - HTTP persistent connections
 - HTTP non-persistent connections
 
-4. Packet Loss Simulation
+ 4. Packet Loss Simulation
 
 Allow users to introduce packet loss and visualize TCP retransmission and acknowledgement behavior.
 
@@ -241,16 +255,18 @@ Allow users to introduce packet loss and visualize TCP retransmission and acknow
 
 Add UDP alongside TCP and compare:
 
-TCP                         UDP
-│                           │
-Connection-oriented         Connectionless
-Reliable                    No delivery guarantee
-Sequence/Ack                No Sequence/Ack
-Flow control                No TCP-style flow control
+    TCP                         UDP
+    │                           │
+    Connection-oriented         Connectionless
+    Reliable                    No delivery guarantee
+    Sequence/Ack                No Sequence/Ack
+    Flow control                No TCP-style flow control
 
-6. QUIC / HTTP/3
+ 6. QUIC / HTTP/3
 
 A future version could visualize QUIC and HTTP/3 communication and compare it with traditional TCP + HTTP.
+
+---
 
  Project Summary
 
@@ -260,7 +276,9 @@ The project focuses on making networking concepts easier to understand by showin
 
 It is designed as an educational simulation and does not replace real packet-capture tools or real network traffic analysis.
 
- 👥 Contributors
+---
+
+👥 Contributors
 
 This project was developed as part of the Computer Networks Assignment 2.
 
@@ -268,7 +286,7 @@ This project was developed as part of the Computer Networks Assignment 2.
   <img src="https://github.com/Priyankajd2005.png" width="80" alt="Priyanka Jd">
 </a>
 
- Priyanka Jd
+Priyanka Jd
 
 Development, protocol visualization, Transport Layer integration and testing.
 
@@ -279,3 +297,21 @@ Development, protocol visualization, Transport Layer integration and testing.
 Application Layer and Transport Layer visualization development.
 
 [View All Contributors](https://github.com/Priyankajd2005/cn_assignment_protocol_visualizer/graphs/contributors)
+
+
+  Languages & Technologies
+
+ Languages
+
+- Python
+- JavaScript
+- HTML
+- CSS
+
+Technologies & Frameworks
+
+- Flask
+- REST API
+- JSON
+- Git & GitHub
+- Gunicorn
