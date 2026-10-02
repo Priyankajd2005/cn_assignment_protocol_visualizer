@@ -188,7 +188,6 @@ This project is an **educational protocol visualizer**. The network communicatio
 # Real
 
 The following parts are real software components:
-
 - Flask web server
 - REST API requests
 - JavaScript frontend
@@ -197,7 +196,6 @@ The following parts are real software components:
 - Playback controls
 - JSON data exchange between frontend and backend
 - Automated Python tests
-
 The project does not open real TCP connections to external servers for the protocol visualization. Instead, it generates realistic protocol events for educational demonstration.
 
 ---
@@ -205,9 +203,7 @@ The project does not open real TCP connections to external servers for the proto
  # Assignment 2 Learning Objectives
 
 The project demonstrates how Application Layer activities interact with Transport Layer communication.
-
 Students can observe:
-
     Application Layer
            ↓
     DNS / HTTP / SMTP / HLS
@@ -219,11 +215,10 @@ Students can observe:
     TCP Segments
            ↓
     Client ↔ Server Communication
-
+    
 This makes it easier to connect theoretical Computer Networks concepts with an interactive visual representation.
 
 ---
-
 # Extra Credit Ideas
 
 The current project uses simulated network traffic. Possible future extensions include:
@@ -281,7 +276,6 @@ It is designed as an educational simulation and does not replace real packet-cap
 # Contributors
 
 This project was developed as part of the Computer Networks Assignment 2.
-
 <a href="https://github.com/Priyankajd2005">
   <img src="https://github.com/Priyankajd2005.png" width="80" alt="Priyanka Jd">
 </a>
@@ -297,18 +291,3 @@ Development, protocol visualization, Transport Layer integration and testing.
 Application Layer and Transport Layer visualization development.
 
 [View All Contributors](https://github.com/Priyankajd2005/cn_assignment_protocol_visualizer/graphs/contributors)
-
-# Languages
-
-- Python
-- JavaScript
-- HTML
-- CSS
-
- # Technologies & Frameworks
-
-- Flask
-- REST API
-- JSON
-- Git & GitHub
-- Gunicorn
