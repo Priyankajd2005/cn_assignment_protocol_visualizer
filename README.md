@@ -1,4 +1,4 @@
-# Dual-Panel Activity & Protocol Visualizer
+# # Application + Transport Layer Visualizer (Assignment 2)
 **Computer Networks – Application Layer Assignment**  
 *Built with Google Antigravity & Gemini 3.8 Flash*
 
